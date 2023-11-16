@@ -1,9 +1,19 @@
+{% extends 'base.html' %}
+
+{%block content %}
+
+<h1>About</h1>
+<p>Hello, my name is Joe Monem. <br> Welcome to my blog.</p>
+
 <h1>Posts</h1>
 
 <ul>
-    {% for post in object_list %}
+    <!-- "reversed" reverses the order. originally it was displaying the oldest to latest.-->
+    {% for post in object_list reversed %}
     <li>
         <a href="{%url 'article-details' post.pk %}"> {{post.title}} </a> - {{post.author}}
     </li>
     {% endfor %}
 </ul>
+
+{% endblock %}
