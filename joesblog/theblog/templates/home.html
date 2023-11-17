@@ -12,6 +12,9 @@
     {% for post in object_list reversed %}
     <li>
         <a href="{%url 'article-details' post.pk %}"> {{post.title}} </a>
+        <br>
+        <!-- shows first 30 characters. removing the slice part would show the entire body-->
+        <!-- {{post.body | slice:":30"}} -->
     </li>
     {% endfor %}
 </ul>
