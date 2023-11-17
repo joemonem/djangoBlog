@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if user.is_authenticated%}
+
 
 
 <h1>Edit the post</h1>
@@ -8,7 +10,10 @@
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button>Post</button>
+    <button class="btn btn-dark">Post</button>
+</form>
+<br>
+<a href="{%url 'home'%}"> <button class="btn btn-dark">Cancel</button></a>
+{%endif%}
 
-
-    {% endblock %}
+{% endblock %}

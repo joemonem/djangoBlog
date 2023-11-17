@@ -11,7 +11,7 @@
     <!-- "reversed" reverses the order. originally it was displaying the oldest to latest.-->
     {% for post in object_list reversed %}
     <li>
-        <a href="{%url 'article-details' post.pk %}"> {{post.title}} </a> - {{post.author}}
+        <a href="{%url 'article-details' post.pk %}"> {{post.title}} </a>
     </li>
     {% endfor %}
 </ul>

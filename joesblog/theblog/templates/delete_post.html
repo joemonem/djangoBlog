@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if user.is_authenticated%}
+
 
 
 <h1>Delete the post "{{post.title}}"</h1>
@@ -8,12 +10,12 @@
 
 <form method="POST">
     {% csrf_token %}
-    <button class="btn btn-dark">Delete</button>
+    <button class="btn btn-danger">Delete</button>
 
 </form>
 <br>
 <a href="{%url 'home'%}"> <button class="btn btn-dark">Cancel</button></a>
 
-
+{%endif%}
 
 {% endblock %}
