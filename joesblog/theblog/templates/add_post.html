@@ -5,11 +5,19 @@
 
 <h1>Add a post</h1>
 <br>
+
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button>Post</button>
+
+    <script>
+        var name = "{{user.id}}";
+        document.getElementById("authorField").value = name;
+    </script>
+
     {% endif %}
+
 
 
     {% endblock %}
