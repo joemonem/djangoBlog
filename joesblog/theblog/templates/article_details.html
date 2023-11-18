@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<!-- {% load bleach_tags %} -->
 
 
 <h1>{{post.title}}</h1>
 <small>By: {{post.author.first_name}} {{ post.author.last_name}}</small> <br>
 <small>Published on: {{post.published_date}}</small>
 <hr>
-<p>{{post.body | linebreaks}}</p>
+<!-- Use safe so that the HTML won't show in the actual post. It's an unsafe method. Using django-bleach is the better method-->
+<p>{{post.body | safe}}</p>
 <br>
 <a href="{%url 'home'%}"> <button class="btn btn-dark">Back</button></a>
 {% if user.is_authenticated%}
