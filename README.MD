@@ -6,5 +6,5 @@ Rich text editor that can upload images alongside the text, posts are listed fro
 
 # The blog is live
 It's being hosted by Render, all the necessary adjustments for launching the blog have been made on the "deployment" branch.
-The database is also provided by Render, it uses PostgreSQL Version 15
+The database is also provided by Render, it uses PostgreSQL Version 15.
 Check it out! https://joesblog.onrender.com
