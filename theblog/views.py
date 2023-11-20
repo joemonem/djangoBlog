@@ -5,6 +5,7 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView,
+    TemplateView,
 )
 from .models import Post
 from .forms import PostForm, EditForm
@@ -32,6 +33,10 @@ class AddPostView(CreateView):
     form_class = PostForm
     # fields = "__all__"
     # fields = ("title", "author", "body")
+
+
+class PricingView(TemplateView):
+    template_name = "pricing.html"
 
 
 class UpdatePostView(UpdateView):

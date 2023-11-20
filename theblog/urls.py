@@ -21,6 +21,7 @@ from .views import (
     AddPostView,
     UpdatePostView,
     DeletePostView,
+    PricingView,
 )
 
 
@@ -31,4 +32,5 @@ urlpatterns = [
     path("addpost", AddPostView.as_view(), name="addpost"),
     path("article/edit/<int:pk>", UpdatePostView.as_view(), name="update_post"),
     path("article/<int:pk>/delete", DeletePostView.as_view(), name="delete_post"),
+    path("pricing", PricingView.as_view(), name="pricing"),
 ]
