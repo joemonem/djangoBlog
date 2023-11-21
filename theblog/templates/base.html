@@ -19,6 +19,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">About</a>
+                    </li>
+
                     {% if user.is_authenticated%}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'addpost'%}">Add Post</a>
@@ -27,6 +31,9 @@
                         <a class="nav-link" href="{% url 'logout'%}">Log Out</a>
                     </li>
                     {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'pricing' %}">Pricing</a>
+                    </li>
                     <!--Commenting out the sign up because it isn't relevant for my blog, but it's important to keep for future projects-->
                     <!-- <li class="nav-item">
                         <a class="nav-link " href="{% url 'signup'%}">Sign Up</a>
@@ -35,9 +42,7 @@
                         <a class="nav-link" href="{% url 'login'%}">Log In</a>
                     </li>
                     {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'pricing' %}">Pricing</a>
-                    </li>
+
 
 
                 </ul>

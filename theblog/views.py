@@ -39,6 +39,10 @@ class PricingView(TemplateView):
     template_name = "pricing.html"
 
 
+class AboutView(TemplateView):
+    template_name = "about.html"
+
+
 class UpdatePostView(UpdateView):
     model = Post
     template_name = "update_post.html"
