@@ -21,12 +21,14 @@ from .views import (
     AddPostView,
     UpdatePostView,
     DeletePostView,
+    AboutView,
 )
 
 
 # urlpatterns = [path("", views.home, name="home")]
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
+    path("about", AboutView.as_view(), name="about"),
     path("article/<int:pk>", ArticleDetailsView.as_view(), name="article-details"),
     path("addpost", AddPostView.as_view(), name="addpost"),
     path("article/edit/<int:pk>", UpdatePostView.as_view(), name="update_post"),

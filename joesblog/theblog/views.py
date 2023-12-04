@@ -5,6 +5,7 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView,
+    TemplateView,
 )
 from .models import Post
 from .forms import PostForm, EditForm
@@ -19,6 +20,10 @@ class HomeView(ListView):
     model = Post
     template_name = "home.html"
     # ordering = ["-published_date"]
+
+
+class AboutView(TemplateView):
+    template_name = "about.html"
 
 
 class ArticleDetailsView(DetailView):
