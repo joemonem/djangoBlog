@@ -3,13 +3,18 @@
 {%block content %}
 
 <h1>Thoughtboard</h1>
+
 <h3>A Spotlight For Your Thoughts</h3>
-<p>We offer you a platform for your thoughts, free from distractions. There's no algorithm to please, no followers to
-    gain.</p>
-<p>So no recommendations, no links that take you to another person's posts, no messages, no notifications... You get the
-    idea.</p>
+<p>We offer you a platform for your thoughts, free from distractions.</p>
+
+<h3>Our <small>(lack of)</small> Features</h3>
+<p>No: followers, likes, comments, recommendations, messages... Basically, no distractions and definetely, </p>
 
 <h3>No Advertisements</h3>
 <p>Obviously we won't have the ultimate distractions, so you'll have to pay up.</p>
+
+<a href="{%url 'signup' %}"> <button class="btn btn-dark">Sign Up</button></a>
+<a href="{%url 'login' %}"> <button class="btn btn-dark">Log In</button></a>
+
 
 {% endblock %}
