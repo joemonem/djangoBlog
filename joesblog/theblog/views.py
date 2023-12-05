@@ -25,7 +25,7 @@ class HomeView(ListView):
     model = Post
     template_name = "home.html"
     context_object_name = "posts"
-    ordering = ["-published_date"]
+    # ordering = ["-published_date"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

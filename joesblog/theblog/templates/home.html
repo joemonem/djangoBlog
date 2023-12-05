@@ -2,9 +2,13 @@
 
 {%block content %}
 
+{%if user_profile.bio%}
 <h1>About {{user_profile.user.first_name}}</h1>
-<p>Hello, my name is Joe Monem. <br> Welcome to my blog.</p>
 <p>{{user_profile.bio}}</p>
+{%else%}
+<h1>No Bio Yet</h1>
+<p>You can visit Edit Profile in the Navbar to add one.</p>
+{%endif%}
 {% if user_posts%}
 <h1>Posts</h1>
 
@@ -20,6 +24,7 @@
     {% endfor %}
     {% else %}
     <h1>No Posts yet</h1>
+    <p>Click on Add Post in the Navbar to create one.</p>
 
     {%endif%}
 </ul>
