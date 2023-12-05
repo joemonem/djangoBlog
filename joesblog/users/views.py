@@ -2,19 +2,15 @@ from django.shortcuts import render
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.urls import reverse_lazy
-from .forms import SignUpForm
+from .forms import SignUpForm, EditProfileForm
 from django.contrib.auth.models import User
 from theblog.models import Profile
-from django.views.generic.base import RedirectView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
 
 
 # Create your views here.
 class UserRegistrationView(generic.CreateView):
     form_class = SignUpForm
     template_name = "registration/signup.html"
-
     success_url = reverse_lazy("login")
 
     def form_valid(self, form):
@@ -34,21 +30,26 @@ class UserRegistrationView(generic.CreateView):
 
 
 class UserEditView(generic.UpdateView):
-    form_class = UserChangeForm
+    form_class = EditProfileForm
     template_name = "registration/edit_profile.html"
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("custom_login_redirect")
 
     def get_object(self):
         return self.request.user
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
 
-# Log out
-class CustomLoginRedirectView(LoginRequiredMixin, RedirectView):
-    pattern_name = "home_with_username"
+        # Access the username of the new user
+        username = form.cleaned_data["username"]
+        new_bio = form.cleaned_data["bio"]
 
-    def get_redirect_url(self, *args, **kwargs):
-        # Get the username of the logged-in user
-        username = self.request.user.username
+        # Retrieve the user object using the username
+        user_model = User.objects.get(username=username)
+        profile_section = Profile.objects.get(user=user_model)
 
-        # Construct the desired URL with the username
-        return reverse(self.pattern_name, args=[username])
+        # Create a Profile object for the new user
+        profile_section.bio = new_bio
+        profile_section.save()
+
+        return response
