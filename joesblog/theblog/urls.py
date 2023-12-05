@@ -22,6 +22,7 @@ from .views import (
     UpdatePostView,
     DeletePostView,
     AboutView,
+    CustomLoginRedirectView,
 )
 
 
@@ -29,6 +30,11 @@ from .views import (
 urlpatterns = [
     path("", AboutView.as_view(), name="about"),
     path("home/<str:pk>", HomeView.as_view(), name="home"),
+    path(
+        "custom_login_redirect/",
+        CustomLoginRedirectView.as_view(),
+        name="custom_login_redirect",
+    ),
     path("addpost", AddPostView.as_view(), name="addpost"),
     path("article/<int:pk>", ArticleDetailsView.as_view(), name="article-details"),
     path("article/edit/<int:pk>", UpdatePostView.as_view(), name="update_post"),

@@ -5,6 +5,9 @@ from django.urls import reverse_lazy
 from .forms import SignUpForm
 from django.contrib.auth.models import User
 from theblog.models import Profile
+from django.views.generic.base import RedirectView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse
 
 
 # Create your views here.
@@ -37,3 +40,15 @@ class UserEditView(generic.UpdateView):
 
     def get_object(self):
         return self.request.user
+
+
+# Log out
+class CustomLoginRedirectView(LoginRequiredMixin, RedirectView):
+    pattern_name = "home_with_username"
+
+    def get_redirect_url(self, *args, **kwargs):
+        # Get the username of the logged-in user
+        username = self.request.user.username
+
+        # Construct the desired URL with the username
+        return reverse(self.pattern_name, args=[username])

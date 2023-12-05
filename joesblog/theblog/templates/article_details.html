@@ -9,7 +9,7 @@
 <!-- Use safe so that the HTML won't show in the actual post. It's an unsafe method. Using django-bleach is the better method-->
 <p>{{post.body | safe}}</p>
 <br>
-<a href="{%url 'home'%}"> <button class="btn btn-dark">Back</button></a>
+<a href="{%url 'home' post.author.username%}"> <button class="btn btn-dark">Back</button></a>
 
 {% if user.is_authenticated%}
 

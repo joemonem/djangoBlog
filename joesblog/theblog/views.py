@@ -11,10 +11,11 @@ from .models import Post, Profile
 from .forms import PostForm, EditForm
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User, auth
-from django.contrib import messages
+from django.contrib.auth.models import User
 from django.http import HttpResponse
-import random
+from django.views.generic.base import RedirectView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse
 
 # Create your views here.
 
@@ -70,3 +71,13 @@ class DeletePostView(DeleteView):
     model = Post
     template_name = "delete_post.html"
     success_url = reverse_lazy("home")
+
+
+# Log out
+class CustomLoginRedirectView(LoginRequiredMixin, RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        # Get the username of the logged-in user
+        username = self.request.user.username
+
+        # Construct the desired URL with the username
+        return reverse("home", args=[username])
