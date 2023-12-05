@@ -27,10 +27,10 @@ from .views import (
 
 # urlpatterns = [path("", views.home, name="home")]
 urlpatterns = [
-    path("home", HomeView.as_view(), name="home"),
     path("", AboutView.as_view(), name="about"),
-    path("article/<int:pk>", ArticleDetailsView.as_view(), name="article-details"),
+    path("home/<str:pk>", HomeView.as_view(), name="home"),
     path("addpost", AddPostView.as_view(), name="addpost"),
+    path("article/<int:pk>", ArticleDetailsView.as_view(), name="article-details"),
     path("article/edit/<int:pk>", UpdatePostView.as_view(), name="update_post"),
     path("article/<int:pk>/delete", DeletePostView.as_view(), name="delete_post"),
 ]

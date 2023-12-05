@@ -7,9 +7,14 @@ from django.views.generic import (
     DeleteView,
     TemplateView,
 )
-from .models import Post
+from .models import Post, Profile
 from .forms import PostForm, EditForm
 from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User, auth
+from django.contrib import messages
+from django.http import HttpResponse
+import random
 
 # Create your views here.
 
@@ -19,7 +24,23 @@ from django.urls import reverse_lazy
 class HomeView(ListView):
     model = Post
     template_name = "home.html"
-    # ordering = ["-published_date"]
+    context_object_name = "posts"
+    ordering = ["-published_date"]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add additional context for user profile
+        username = self.kwargs["pk"]
+        user_object = User.objects.get(username=username)
+        user_profile = Profile.objects.get(user=user_object)
+        user_posts = Post.objects.filter(author=user_object)
+
+        context["user_object"] = user_object
+        context["user_profile"] = user_profile
+        context["user_posts"] = user_posts
+
+        return context
 
 
 class AboutView(TemplateView):

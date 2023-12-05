@@ -2,21 +2,26 @@
 
 {%block content %}
 
-<h1>About {{user.first_name}}</h1>
+<h1>About {{user_profile.user.first_name}}</h1>
 <p>Hello, my name is Joe Monem. <br> Welcome to my blog.</p>
-
+<p>{{user_profile.bio}}</p>
+{% if user_posts%}
 <h1>Posts</h1>
 
 <ul>
     <!-- "reversed" reverses the order. originally it was displaying the oldest to latest.-->
-    {% for post in object_list reversed %}
+    {% for user_posts in object_list reversed %}
     <li>
-        <a href="{%url 'article-details' post.pk %}"> {{post.title}} </a>
+        <a href="{%url 'article-details' user_posts.pk %}"> {{user_posts.title}} </a>
         <br>
         <!-- shows first 30 characters. removing the slice part would show the entire body-->
         <!-- {{post.body | slice:":30"}} -->
     </li>
     {% endfor %}
+    {% else %}
+    <h1>No Posts yet</h1>
+
+    {%endif%}
 </ul>
 
 {% endblock %}

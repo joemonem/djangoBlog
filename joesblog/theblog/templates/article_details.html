@@ -10,6 +10,7 @@
 <p>{{post.body | safe}}</p>
 <br>
 <a href="{%url 'home'%}"> <button class="btn btn-dark">Back</button></a>
+
 {% if user.is_authenticated%}
 
 <a href="{%url 'update_post' post.pk %}"> <button class="btn btn-dark">Edit</button></a>
