@@ -59,6 +59,11 @@ class AddPostView(CreateView):
     model = Post
     template_name = "add_post.html"
     form_class = PostForm
+
+    def get_success_url(self):
+        username = self.request.user.username
+        return reverse("home", args=[username])
+
     # fields = "__all__"
     # fields = ("title", "author", "body")
 
@@ -72,7 +77,10 @@ class UpdatePostView(UpdateView):
 class DeletePostView(DeleteView):
     model = Post
     template_name = "delete_post.html"
-    success_url = reverse_lazy("home")
+
+    def get_success_url(self):
+        username = self.request.user.username
+        return reverse("home", args=[username])
 
 
 # Search
