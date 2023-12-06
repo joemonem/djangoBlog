@@ -6,18 +6,15 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
     TemplateView,
-    View,
 )
 from .models import Post, Profile
 from .forms import PostForm, EditForm
-from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 from django.views.generic.base import RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
-import logging
+from django.contrib import messages
 
 # Create your views here.
 
@@ -75,6 +72,11 @@ class UpdatePostView(UpdateView):
     template_name = "update_post.html"
     form_class = EditForm
 
+    def get_success_url(self):
+        username = self.request.user.username
+        article = self.object.pk
+        return reverse("article-details", args=[article])
+
 
 class DeletePostView(DeleteView):
     model = Post
@@ -100,11 +102,13 @@ class SearchRedirectView(RedirectView):
 
             # Redirect to the constructed URL
             return redirect(redirect_url)
+
         except User.DoesNotExist:
             # Handle the case where the user is not found
-            return render(
-                request, "user_not_found.html", {"searched_username": username}
-            )
+            messages.warning(request, f"User '{username}' not found.")
+            current_url = self.request.path
+            print(current_url)
+            return render(request, "home.html", {"current_url": current_url})
 
 
 # Log out
