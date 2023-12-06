@@ -17,7 +17,7 @@ from django.http import HttpResponse
 from django.views.generic.base import RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
-
+import logging
 
 # Create your views here.
 
@@ -35,9 +35,12 @@ class HomeView(ListView):
 
         # Add additional context for user profile
         username = self.kwargs["pk"]
-        user_object = User.objects.get(username=username)
-        user_profile = Profile.objects.get(user=user_object)
+        # user_object = User.objects.get(username=username)
+        user_object = get_object_or_404(User, username=username)
+        user_profile = get_object_or_404(Profile, user=user_object)
+
         user_posts = Post.objects.filter(author=user_object)
+        print(f"User posts: {user_posts}")
 
         context["user_object"] = user_object
         context["user_profile"] = user_profile

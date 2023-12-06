@@ -14,9 +14,9 @@
 
 <ul>
     <!-- "reversed" reverses the order. originally it was displaying the oldest to latest.-->
-    {% for user_posts in object_list reversed %}
+    {% for post in user_posts reversed %}
     <li>
-        <a href="{%url 'article-details' user_posts.pk %}"> {{user_posts.title}} </a>
+        <a href="{%url 'article-details' post.pk %}"> {{post.title}} </a>
         <br>
         <!-- shows first 30 characters. removing the slice part would show the entire body-->
         <!-- {{post.body | slice:":30"}} -->
