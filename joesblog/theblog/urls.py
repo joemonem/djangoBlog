@@ -23,6 +23,7 @@ from .views import (
     DeletePostView,
     AboutView,
     CustomLoginRedirectView,
+    SearchRedirectView,
 )
 
 
@@ -34,6 +35,11 @@ urlpatterns = [
         "custom_login_redirect/",
         CustomLoginRedirectView.as_view(),
         name="custom_login_redirect",
+    ),
+    path(
+        "search_redirect",
+        SearchRedirectView.as_view(),
+        name="search_redirect",
     ),
     path("addpost", AddPostView.as_view(), name="addpost"),
     path("article/<int:pk>", ArticleDetailsView.as_view(), name="article-details"),

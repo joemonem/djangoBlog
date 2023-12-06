@@ -6,16 +6,18 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
     TemplateView,
+    View,
 )
 from .models import Post, Profile
 from .forms import PostForm, EditForm
 from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.views.generic.base import RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+
 
 # Create your views here.
 
@@ -71,6 +73,28 @@ class DeletePostView(DeleteView):
     model = Post
     template_name = "delete_post.html"
     success_url = reverse_lazy("home")
+
+
+# Search
+class SearchRedirectView(RedirectView):
+    def post(self, request, *args, **kwargs):
+        # Access the user's submission
+        username = request.POST.get("username", "")
+
+        try:
+            # Check if the user with the given username exists
+            User.objects.get(username=username)
+
+            # Construct the desired URL with the username
+            redirect_url = reverse("home", args=[username])
+
+            # Redirect to the constructed URL
+            return redirect(redirect_url)
+        except User.DoesNotExist:
+            # Handle the case where the user is not found
+            return render(
+                request, "user_not_found.html", {"searched_username": username}
+            )
 
 
 # Log out
