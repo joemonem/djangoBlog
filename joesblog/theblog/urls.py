@@ -24,6 +24,10 @@ from .views import (
     AboutView,
     CustomLoginRedirectView,
     SearchRedirectView,
+    CreateCheckoutSessionView,
+    SuccessView,
+    CancelView,
+    ProductLandingPageView,
 )
 
 
@@ -45,4 +49,13 @@ urlpatterns = [
     path("article/<int:pk>", ArticleDetailsView.as_view(), name="article-details"),
     path("article/edit/<int:pk>", UpdatePostView.as_view(), name="update_post"),
     path("article/<int:pk>/delete", DeletePostView.as_view(), name="delete_post"),
+    # Payment
+    path("cancel/", CancelView.as_view(), name="cancel"),
+    path("success/", SuccessView.as_view(), name="success"),
+    path(
+        "create-checkout-session/<pk>/",
+        CreateCheckoutSessionView.as_view(),
+        name="create-checkout-session",
+    ),
+    path("landing", ProductLandingPageView.as_view(), name="landing"),
 ]
