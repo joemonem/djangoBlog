@@ -40,7 +40,6 @@ class HomeView(ListView):
         user_profile = get_object_or_404(Profile, user=user_object)
 
         user_posts = Post.objects.filter(author=user_object)
-        print(f"User posts: {user_posts}")
 
         context["user_object"] = user_object
         context["user_profile"] = user_profile
