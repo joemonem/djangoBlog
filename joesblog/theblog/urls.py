@@ -28,6 +28,7 @@ from .views import (
     SuccessView,
     CancelView,
     ProductLandingPageView,
+    stripe_webhook,
 )
 
 
@@ -58,4 +59,5 @@ urlpatterns = [
         name="create-checkout-session",
     ),
     path("landing", ProductLandingPageView.as_view(), name="landing"),
+    path("webhooks/stripe/", stripe_webhook, name="stripe-webhook"),
 ]

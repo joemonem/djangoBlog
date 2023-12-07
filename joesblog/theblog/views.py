@@ -16,11 +16,15 @@ from django.views.generic.base import RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 
 # Payment
 import stripe
 import os
 from django.conf import settings
+from users.models import Payment
+from django.core.mail import send_mail
 
 
 # Create your views here.
@@ -128,7 +132,7 @@ class CustomLoginRedirectView(LoginRequiredMixin, RedirectView):
         return reverse("home", args=[username])
 
 
-# Payment
+### Payment ###
 stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
 
 
@@ -170,3 +174,57 @@ class ProductLandingPageView(TemplateView):
         context = super(ProductLandingPageView, self).get_context_data(**kwargs)
         context.update({"product": product, "prices": prices})
         return context
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
+    event = None
+
+    # Verify that the event is coming from Stripe
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
+        )
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+    # Handle the checkout.session.completed event
+    if event["type"] == "checkout.session.completed":
+        session = event["data"]["object"]
+        customer_email = session["customer_details"]["email"]
+        payment_date = session["created"]
+        payment_intent = session["payment_intent"]
+
+        # Load instance of payment model
+        payment = Payment()
+
+        # Save user's email in the Payment model
+        payment.email = customer_email
+
+        # Save user's payment date in the Payment model
+        payment.paymentDate = payment_date
+
+        payment.save()
+
+        # TODO - send an email to the customer
+        # Turns out it costs money to relay emails
+        # line_items = stripe.checkout.Session.list_line_items(session["id"])
+
+        # stripe_price_id = line_items["data"][0]["price"]["id"]
+        # price = Price.objects.get(stripe_price_id=stripe_price_id)
+        # product = price.product
+
+        # send_mail(
+        #     subject="Welcome to Thoughboard!",
+        #     message=f"Your purchase is much appreciated, you can now create an account. Make sure to register using the email address you used during the payment process!",
+        #     recipient_list=[customer_email],
+        #     from_email="jmonem@icloud.com",
+        # )
+
+    return HttpResponse(status=200)

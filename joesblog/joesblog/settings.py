@@ -132,3 +132,6 @@ LOGOUT_REDIRECT_URL = "about"
 # Payment
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET")
+
+EMAIL_BACKEND = "django.core.mail.backends.bash.EmailBackend"
