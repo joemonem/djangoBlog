@@ -18,6 +18,7 @@ class PaymentErrorView(TemplateView):
     template_name = "registration/payment_error.html"
 
 
+# TODO don't let that user to be added into the User database
 class UserRegistrationView(generic.CreateView):
     form_class = SignUpForm
     template_name = "registration/signup.html"
