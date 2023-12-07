@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if user.is_authenticated%}
+{% if user.is_authenticated and user.username == post.author.username%}
 
 
 
