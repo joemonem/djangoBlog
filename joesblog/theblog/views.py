@@ -201,15 +201,8 @@ def stripe_webhook(request):
         payment_date = session["created"]
         payment_intent = session["payment_intent"]
 
-        # Load instance of payment model
-        payment = Payment()
-
-        # Save user's email in the Payment model
-        payment.email = customer_email
-
-        # Save user's payment date in the Payment model
-        payment.paymentDate = payment_date
-
+        # Load instance of payment model,  Save user's email and payment date in the Payment model
+        payment = Payment(email=customer_email, paymentDate=payment_date)
         payment.save()
 
         # TODO - send an email to the customer
