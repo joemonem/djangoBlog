@@ -33,7 +33,7 @@ class EditProfileForm(UserChangeForm):
         max_length=50, widget=forms.TextInput(attrs={"class": "form-control"})
     )
     bio = forms.CharField(
-        max_length=50,
+        max_length=1000,
         widget=forms.Textarea(attrs={"class": "form-control"}),
     )
 

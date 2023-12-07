@@ -11,16 +11,20 @@
 </head>
 
 <body>
+    <h3>Payment Procedure</h3>
+    <p>You'll be able to sign up once you've completed your purchase. Make sure to use the same email in both payment
+        and
+        sign up!</p>
     <section>
         <div class="product">
             <div class="description">
                 <!-- <h3>{{ product.name }}</h3> -->
-                <h1>Purchase One Year Access</h1>
+                <h3>Purchase One Year Access</h3>
                 <hr />
                 {% for price in prices %}
 
                 <div>
-                    <h5>${{ price.get_display_price }}</h5>
+                    <h5>Price: ${{ price.get_display_price }}</h5>
                     <form action="{% url 'create-checkout-session' price.id %}" method="POST">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary">Checkout</button>
