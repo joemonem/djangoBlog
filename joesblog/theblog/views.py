@@ -14,7 +14,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.views.generic.base import RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
@@ -25,6 +25,9 @@ import os
 from django.conf import settings
 from django.core.mail import send_mail
 from datetime import datetime
+
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 # Create your views here.
@@ -206,6 +209,12 @@ class ProductLandingPageView(TemplateView):
         context = super(ProductLandingPageView, self).get_context_data(**kwargs)
         context.update({"product": product, "prices": prices})
         return context
+
+
+class UpdatePassword(PasswordChangeView):
+    form_class = PasswordChangeForm
+    template_name = "update_password.html"
+    success_url = reverse_lazy("custom_login_redirect")
 
 
 @csrf_exempt

@@ -29,6 +29,7 @@ from .views import (
     CancelView,
     ProductLandingPageView,
     stripe_webhook,
+    UpdatePassword,
 )
 
 
@@ -60,4 +61,5 @@ urlpatterns = [
     ),
     path("landing", ProductLandingPageView.as_view(), name="landing"),
     path("webhooks/stripe/", stripe_webhook, name="stripe-webhook"),
+    path("<int:pk>/password/", UpdatePassword.as_view(), name="update_password"),
 ]

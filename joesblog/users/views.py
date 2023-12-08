@@ -8,7 +8,8 @@ from theblog.models import Profile
 from django.views.generic import (
     TemplateView,
 )
-
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.forms import PasswordChangeForm
 
 # Create your views here.
 
@@ -62,3 +63,9 @@ class UserEditView(generic.UpdateView):
         profile_section.save()
 
         return response
+
+
+class UpdatePassword(PasswordChangeView):
+    form_class = PasswordChangeForm
+    template_name = "registration/update_password.html"
+    success_url = reverse_lazy("custom_login_redirect")
