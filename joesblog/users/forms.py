@@ -41,12 +41,9 @@ class EditProfileForm(UserChangeForm):
         model = User
         fields = ("username", "first_name", "last_name", "email", "password", "bio")
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-
-    #     # Set the initial value for the bio field
-    #     if self.instance:
-    #         # Access the profile from the user instance
-    #         profile_section = self.instance.profile
-
-    #         self.fields["bio"].initial = profile_section.bio
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Get the current user's profile and pre-populate the bio field
+        user = self.instance
+        profile = Profile.objects.get(user=user)
+        self.fields["bio"].initial = profile.bio

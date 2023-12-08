@@ -234,6 +234,7 @@ def stripe_webhook(request):
         payment_intent = session["payment_intent"]
 
         # Get the user's Profile
+        # The first() is no longer necessary since the email is now unique, so more than 1 result is not possible
         user = User.objects.filter(email=customer_email).first()
 
         # TODO error handling in case user is paying before registering
