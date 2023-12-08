@@ -36,9 +36,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'landing'%}">Pricing</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login'%}">Log In</a>
-                    </li>
 
                     {% if user.is_authenticated%}
 
@@ -53,13 +50,12 @@
                     </li>
 
                     {% else %}
-                    <!--Commenting out the sign up because it isn't relevant for my blog, but it's important to keep for future projects-->
-                    <!-- <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link " href="{% url 'signup'%}">Sign Up</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'login'%}">Log In</a>
-                    </li> -->
+                    </li>
                     {% endif %}
                 </ul>
 
