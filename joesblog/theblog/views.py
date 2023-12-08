@@ -84,7 +84,7 @@ class AddPostView(CreateView):
         user_profile = get_object_or_404(Profile, user=user_object)
 
         currentTime = int(datetime.now().timestamp())
-        validPayment = (currentTime - user_profile.paymentDate) < 31, 536, 000
+        validPayment = (currentTime - user_profile.paymentDate) < 31536000
 
         context["valid_payment"] = validPayment
 
@@ -218,11 +218,11 @@ def stripe_webhook(request):
         payment_intent = session["payment_intent"]
 
         # Get the user's Profile
-        user = User.objects.filter(email=customer_email)
+        user = User.objects.filter(email=customer_email).first()
 
         # TODO error handling in case user is paying before registering
 
-        profile = Profile.objects.get(author=user)
+        profile = Profile.objects.get(user=user)
         profile.paymentDate = payment_date
         profile.save()
 
