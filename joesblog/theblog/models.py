@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 
-# from django_bleach.models import BleachField
+User._meta.get_field("email")._unique = True
 
 
 # Create your models here.
