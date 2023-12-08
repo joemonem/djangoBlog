@@ -5,7 +5,6 @@ from django.urls import reverse_lazy, reverse
 from .forms import SignUpForm, EditProfileForm
 from django.contrib.auth.models import User
 from theblog.models import Profile
-from .models import Payment
 from django.views.generic import (
     TemplateView,
 )
@@ -18,32 +17,13 @@ class PaymentErrorView(TemplateView):
     template_name = "registration/payment_error.html"
 
 
-# TODO don't let that user to be added into the User database
 class UserRegistrationView(generic.CreateView):
     form_class = SignUpForm
     template_name = "registration/signup.html"
     success_url = reverse_lazy("login")
 
-    def form_invalid(self, form):
-        # Access the user's email
-        email = form.cleaned_data.get("email", "")
-
-        # If the email isn't found in the Payment model, redirect to the payment error page
-        if not Payment.objects.filter(email=email).exists():
-            return HttpResponseRedirect(reverse("payment_error"))
-
-        # Call the parent class's form_invalid method for other processing
-        return super().form_invalid(form)
-
     def form_valid(self, form):
         response = super().form_valid(form)
-
-        # Access the user's email
-        email = form.cleaned_data["email"]
-
-        # If the email isn't found in the Payment model, I want to display the error page and break off the rest of the code
-        if not Payment.objects.filter(email=email).exists():
-            return HttpResponseRedirect(reverse("payment_error"))
 
         # Access the username of the new user
         username = form.cleaned_data["username"]

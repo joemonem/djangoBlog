@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if user.is_authenticated%}
+{% if user.is_authenticated and valid_payment is True%}
 
 <h1>Add a post</h1>
 <br>
@@ -17,6 +17,8 @@
         document.getElementById("authorField").value = name;
     </script>
 
+    {% else %}
+    <h1>Only users with valid One Year Access can post</h1>
     {% endif %}
 
 

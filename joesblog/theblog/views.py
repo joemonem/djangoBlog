@@ -23,8 +23,8 @@ from django.http import HttpResponse
 import stripe
 import os
 from django.conf import settings
-from users.models import Payment
 from django.core.mail import send_mail
+from datetime import datetime
 
 
 # Create your views here.
@@ -73,6 +73,22 @@ class AddPostView(CreateView):
     def get_success_url(self):
         username = self.request.user.username
         return reverse("home", args=[username])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add additional context for user profile
+        username = self.request.user.username
+        # user_object = User.objects.get(username=username)
+        user_object = get_object_or_404(User, username=username)
+        user_profile = get_object_or_404(Profile, user=user_object)
+
+        currentTime = int(datetime.now().timestamp())
+        validPayment = (currentTime - user_profile.paymentDate) < 31, 536, 000
+
+        context["valid_payment"] = validPayment
+
+        return context
 
     # fields = "__all__"
     # fields = ("title", "author", "body")
@@ -201,9 +217,14 @@ def stripe_webhook(request):
         payment_date = session["created"]
         payment_intent = session["payment_intent"]
 
-        # Load instance of payment model,  Save user's email and payment date in the Payment model
-        payment = Payment(email=customer_email, paymentDate=payment_date)
-        payment.save()
+        # Get the user's Profile
+        user = User.objects.filter(email=customer_email)
+
+        # TODO error handling in case user is paying before registering
+
+        profile = Profile.objects.get(author=user)
+        profile.paymentDate = payment_date
+        profile.save()
 
         # TODO - send an email to the customer
         # Turns out it costs money to relay emails
