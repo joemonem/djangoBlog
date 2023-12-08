@@ -104,6 +104,22 @@ class UpdatePostView(UpdateView):
         article = self.object.pk
         return reverse("article-details", args=[article])
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add additional context for user profile
+        username = self.request.user.username
+        # user_object = User.objects.get(username=username)
+        user_object = get_object_or_404(User, username=username)
+        user_profile = get_object_or_404(Profile, user=user_object)
+
+        currentTime = int(datetime.now().timestamp())
+        validPayment = (currentTime - user_profile.paymentDate) < 31536000
+
+        context["valid_payment"] = validPayment
+
+        return context
+
 
 class DeletePostView(DeleteView):
     model = Post
