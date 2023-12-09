@@ -1,6 +1,84 @@
 {% extends 'base.html' %}
 
 {%block content %}
+<style>
+    body {
+        font-family: sans-serif;
+        background-color: #f5f5f5;
+    }
+
+    h1 {
+        font-size: 3em;
+        text-align: center;
+        color: #333;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+
+    h3 {
+        font-size: 1.5em;
+        text-align: center;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    p {
+        font-size: 1em;
+        text-align: center;
+        color: #999;
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        background-color: #000;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        margin: 5px;
+    }
+
+    .btn:hover {
+        background-color: #333;
+        cursor: pointer;
+    }
+
+    form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    input {
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    button {
+        margin-left: 10px;
+    }
+
+    ul {
+        /* Apply same font family as body */
+        font-family: sans-serif;
+        /* Set margin and padding to 0 for consistent spacing */
+        margin: 0;
+        padding: 0;
+        /* Remove default list-style */
+        list-style: none;
+        text-align: center;
+
+    }
+
+    .messages ul,
+    .posts ul {
+        /* Add border-bottom for separation between sections */
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 15px;
+    }
+</style>
 
 {% if messages %}
 <ul class="messages">
@@ -11,31 +89,42 @@
 {%else%}
 
 {%if user_profile.bio%}
+
 <h1>About {{user_profile.user.first_name}}</h1>
 <p>{{user_profile.bio}}</p>
 {%else%}
+
 <h1>No Bio Yet</h1>
 <p>You can visit Edit Profile in the Navbar to add one.</p>
+
 {%endif%}
+
 {% if user_posts%}
+
 <h1>Posts</h1>
 
 <ul>
     <!-- "reversed" reverses the order. originally it was displaying the oldest to latest.-->
     {% for post in user_posts reversed %}
+
     <li>
         <a href="{%url 'article-details' post.pk %}"> {{post.title}} </a>
         <br>
         <!-- shows first 30 characters. removing the slice part would show the entire body-->
         <!-- {{post.body | slice:":30"}} -->
     </li>
+
     {% endfor %}
+
     {% else %}
+
     <h1>No Posts yet</h1>
     <p>Click on Add Post in the Navbar to create one.</p>
 
     {%endif%}
+
 </ul>
+
 {% endif %}
 
 

@@ -1,6 +1,65 @@
 {% extends 'base.html' %}
 
 {%block content %}
+<style>
+    body {
+        font-family: sans-serif;
+        background-color: #f5f5f5;
+    }
+
+    h1 {
+        font-size: 3em;
+        text-align: center;
+        color: #333;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+
+    h3 {
+        font-size: 1.5em;
+        text-align: center;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    p {
+        font-size: 1em;
+        text-align: center;
+        color: #999;
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        background-color: #000;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        margin: 5px;
+    }
+
+    .btn:hover {
+        background-color: #333;
+        cursor: pointer;
+    }
+
+    form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    input {
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    button {
+        margin-left: 10px;
+    }
+</style>
 
 <h1>Thoughtboard</h1>
 
@@ -11,11 +70,11 @@
 <p>No: followers, likes, comments, recommendations, messages... Basically, no distractions and definitely, </p>
 
 <h3>No Advertisements</h3>
-<p>Obviously we won't have the ultimate distractions, so you'll have to pay up.</p>
+<p>So you'll have to pay up 😁</p>
 
 
 
-{% if not user.is_authenticated%}
+<!-- {% if not user.is_authenticated%}
 <a href="{%url 'signup' %}"> <button class="btn btn-dark">Sign Up</button></a>
 <a href="{%url 'login' %}"> <button class="btn btn-dark">Log In</button></a>
 <br>
@@ -26,6 +85,6 @@
     {% csrf_token %}
     <input class="form-control me-2" type="input" name="username" placeholder="Username">
     <button class="btn btn-dark" type="submit">Search</button>
-</form>
+</form> -->
 
 {% endblock %}
