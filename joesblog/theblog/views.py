@@ -19,6 +19,11 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
+
 # Payment
 import stripe
 import os
@@ -46,7 +51,6 @@ class HomeView(ListView):
 
         # Add additional context for user profile
         username = self.kwargs["pk"]
-        # user_object = User.objects.get(username=username)
         user_object = get_object_or_404(User, username=username)
         user_profile = get_object_or_404(Profile, user=user_object)
 
@@ -56,7 +60,72 @@ class HomeView(ListView):
         context["user_profile"] = user_profile
         context["user_posts"] = user_posts
 
+        # Include information about the signed-in user if authenticated
+        if self.request.user.is_authenticated:
+            current_user_profile = get_object_or_404(Profile, user=self.request.user)
+            is_following = current_user_profile.following.filter(
+                username=username
+            ).exists()
+
+            context["is_following"] = is_following
+
         return context
+
+
+@method_decorator(login_required, name="dispatch")
+@method_decorator(require_POST, name="post")
+class FollowView(View):
+    model = Profile
+
+    def post(self, request, *args, **kwargs):
+        # Get the current user's profile
+        current_user_profile = request.user.id
+
+        # Get the user_id of the user we want to follow
+        followee = request.POST.get("followee")
+
+        profile_to_follow = get_object_or_404(Profile, user=followee)
+        followee_profile = get_object_or_404(Profile, user=current_user_profile)
+
+        # Check if the current user is already following the user
+        is_following = followee_profile.following.filter(
+            username=profile_to_follow.user.username
+        ).exists()
+
+        if not is_following:
+            # If not already following, create the follow relationship
+            followee_profile.following.add(profile_to_follow.user)
+
+        # If already following, you might handle it differently (e.g., show an error message)
+
+        return redirect("home", profile_to_follow.user.username)
+
+
+@method_decorator(login_required, name="dispatch")
+@method_decorator(require_POST, name="post")
+class UnfollowView(View):
+    model = Profile
+
+    def post(self, request, *args, **kwargs):
+        # Get the current user's profile
+        current_user_profile = request.user.id
+
+        # Get the user_id of the user we want to unfollow
+        unfollowee = request.POST.get("unfollowee")
+
+        profile_to_unfollow = get_object_or_404(Profile, user=unfollowee)
+        followee_profile = get_object_or_404(Profile, user=current_user_profile)
+
+        # Check if the current user is already following the user
+        is_following = followee_profile.following.filter(
+            username=profile_to_unfollow.user.username
+        ).exists()
+
+        if is_following:
+            # If not already following, create the follow relationship
+            followee_profile.following.remove(profile_to_unfollow.user)
+
+        return redirect("home", profile_to_unfollow.user.username)
 
 
 class AboutView(TemplateView):

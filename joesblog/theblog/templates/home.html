@@ -90,7 +90,32 @@
 
 {%if user_profile.bio%}
 
-<h1>About {{user_profile.user.first_name}}</h1>
+<div style="display: flex; align-items: center; margin: 0 auto; width: fit-content;">
+    <h1>About {{user_profile.user.first_name}}</h1>
+    {% if user.is_authenticated and user != user_profile.user and is_following is False%}
+    <form method="post" action="{%url 'follow'%}">
+        <input type="hidden" name="followee" value="{{ user_profile.user.id }}">
+
+        {% csrf_token %}
+        <button>Follow</button>
+
+    </form>
+
+    {%elif user.is_authenticated and user != user_profile.user and is_following is True%}
+
+    <form method="post" action="{%url 'unfollow'%}">
+        <input type="hidden" name="unfollowee" value="{{ user_profile.user.id }}">
+
+        {% csrf_token %}
+        <button>Unfollow</button>
+
+    </form>
+
+    {% endif %}
+</div>
+
+
+
 <p>{{user_profile.bio}}</p>
 {%else%}
 

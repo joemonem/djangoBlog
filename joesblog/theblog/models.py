@@ -31,6 +31,7 @@ class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, max_length=1000)
     paymentDate = models.IntegerField(default=0)
+    following = models.ManyToManyField(User, related_name="following", default=list())
 
     def __str__(self):
         return self.user.username
