@@ -152,6 +152,36 @@
 
 {% endif %}
 
+{% if user.is_authenticated and user == user_profile.user %}
+
+{% if following_posts%}
+
+<h1>Following</h1>
+
+<ul>
+    <!-- "reversed" reverses the order. originally it was displaying the oldest to latest.-->
+    {% for post in following_posts reversed %}
+
+    <li>
+        <a href="{%url 'article-details' post.pk %}"> {{post.title}} </a> - by {{post.author}}
+        <br>
+        <!-- shows first 30 characters. removing the slice part would show the entire body-->
+        <!-- {{post.body | slice:":30"}} -->
+    </li>
+
+    {% endfor %}
+
+    {% else %}
+
+    <h1>You don't follow anyone</h1>
+    <p>Search for a profile to follow</p>
+
+
+</ul>
+
+{% endif %}
+
+{%endif%}
 
 
 {% endblock %}

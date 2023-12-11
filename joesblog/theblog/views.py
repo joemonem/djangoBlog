@@ -56,9 +56,18 @@ class HomeView(ListView):
 
         user_posts = Post.objects.filter(author=user_object)
 
+        following_users = user_profile.following.exclude(username=username)
+        following_posts = []
+
+        for profile in following_users:
+            print(profile)
+            following_user_posts = Post.objects.filter(author=profile)
+            following_posts.extend(following_user_posts)
+
         context["user_object"] = user_object
         context["user_profile"] = user_profile
         context["user_posts"] = user_posts
+        context["following_posts"] = following_posts
 
         # Include information about the signed-in user if authenticated
         if self.request.user.is_authenticated:
