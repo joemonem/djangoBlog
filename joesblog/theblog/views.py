@@ -64,6 +64,8 @@ class HomeView(ListView):
             following_user_posts = Post.objects.filter(author=profile)
             following_posts.extend(following_user_posts)
 
+        following_posts.sort(key=lambda post: post.id)
+
         context["user_object"] = user_object
         context["user_profile"] = user_profile
         context["user_posts"] = user_posts
