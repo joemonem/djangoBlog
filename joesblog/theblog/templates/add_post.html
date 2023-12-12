@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if user.is_authenticated and valid_payment is True%}
+{% if user.is_authenticated and valid_payment is True and post_limit_reached is False%}
 
 <h1>Add a post</h1>
 <br>
@@ -17,8 +17,13 @@
         document.getElementById("authorField").value = name;
     </script>
 
-    {% else %}
+    {% elif valid_payment is False%}
     <h1>Only users with valid One Year Access can post</h1>
+    {% elif post_limit_reached is True %}
+    <h1>At least 24 hours should elapse between posts </h1>
+    {%else%}
+    <h1>You either haven't paid or posted fewer than 24 hours ago.</h1>
+
     {% endif %}
 
 

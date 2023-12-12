@@ -155,6 +155,18 @@ class AddPostView(CreateView):
 
     def get_success_url(self):
         username = self.request.user.username
+        user_object = get_object_or_404(User, username=username)
+        user_profile = get_object_or_404(Profile, user=user_object)
+
+        currentTime = int(datetime.now().timestamp())
+        validPayment = (currentTime - user_profile.paymentDate) < 31536000
+
+        post_limit_reached = (currentTime - user_profile.last_posted) < 86400
+
+        if validPayment and post_limit_reached is False:
+            user_profile.last_posted = currentTime
+            user_profile.save()
+
         return reverse("home", args=[username])
 
     def get_context_data(self, **kwargs):
@@ -169,6 +181,15 @@ class AddPostView(CreateView):
         currentTime = int(datetime.now().timestamp())
         validPayment = (currentTime - user_profile.paymentDate) < 31536000
 
+        post_limit_reached = (currentTime - user_profile.last_posted) < 86400
+
+        # if validPayment and post_limit_reached is False:
+        #     user_profile.last_posted = currentTime
+        #     user_profile.save()
+
+        print(post_limit_reached)
+
+        context["post_limit_reached"] = post_limit_reached
         context["valid_payment"] = validPayment
 
         return context

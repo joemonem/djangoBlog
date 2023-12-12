@@ -32,6 +32,7 @@ class Profile(models.Model):
     bio = models.TextField(blank=True, max_length=1000)
     paymentDate = models.IntegerField(default=0)
     following = models.ManyToManyField(User, related_name="following", default=list())
+    last_posted = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username
