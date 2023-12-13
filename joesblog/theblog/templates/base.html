@@ -9,6 +9,18 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 
+<style>
+    .messages p {
+        color: rgba(255, 0, 0, 0.5);
+        /* Very light red with 50% opacity */
+        font-size: 1.0em;
+        margin: auto;
+        padding-right: 10px;
+
+
+    }
+</style>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
@@ -60,8 +72,14 @@
                 </ul>
 
             </div>
+            <ul class="messages">
+                {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+                    {% endfor %}
+            </ul>
             <form method="post" action="{% url 'search_redirect' %}" class="d-flex" style="max-width: 300px;">
                 {% csrf_token %}
+                <input type="hidden" name="current_url" value="{{ request.path }}">
                 <input class="form-control me-2" type="input" name="username" placeholder="Seach for User">
                 <!-- <button class="btn btn-light" type="submit">Search</button> -->
             </form>

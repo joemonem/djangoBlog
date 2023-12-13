@@ -14,7 +14,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.views.generic.base import RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy, resolve
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
@@ -252,10 +252,24 @@ class SearchRedirectView(RedirectView):
 
         except User.DoesNotExist:
             # Handle the case where the user is not found
-            messages.warning(request, f"User '{username}' not found.")
-            current_url = self.request.path
-            print(current_url)
-            return render(request, "home.html", {"current_url": current_url})
+            messages.warning(request, f"User '{username}' not found")
+            current_url = request.POST.get("current_url")
+            current_page_name = resolve(current_url).url_name
+            print("Current URL: ", current_url)
+
+            print("Current page name: ", current_page_name)
+
+            if current_page_name == "home":
+                # Extract the profile's username, current url at this stage always returns /home/username so 6 skips directly to the username
+                extracted_username = current_url[6:]
+                redirect_url = reverse("home", args=[extracted_username])
+            elif current_page_name == "about":
+                redirect_url = reverse(current_page_name)
+            # TODO take care of the rest of the cases
+            else:
+                redirect_url = reverse(current_page_name)
+
+            return redirect(redirect_url)
 
 
 # Log out
