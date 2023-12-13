@@ -1,6 +1,84 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    body {
+        font-family: sans-serif;
+        background-color: #f5f5f5;
+    }
+
+    h1 {
+        font-size: 3em;
+        text-align: center;
+        color: #333;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+
+    h3 {
+        font-size: 1.5em;
+        text-align: center;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    p {
+        font-size: 1em;
+        text-align: center;
+        color: #999;
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        background-color: #000;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        margin: 5px;
+    }
+
+    .btn:hover {
+        background-color: #333;
+        cursor: pointer;
+    }
+
+    form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    input {
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    button {
+        margin-left: 10px;
+    }
+
+    ul {
+        /* Apply same font family as body */
+        font-family: sans-serif;
+        /* Set margin and padding to 0 for consistent spacing */
+        margin: 0;
+        padding: 0;
+        /* Remove default list-style */
+        list-style: none;
+        text-align: center;
+
+    }
+
+    .messages ul,
+    .posts ul {
+        /* Add border-bottom for separation between sections */
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 15px;
+    }
+</style>
 {% if user.is_authenticated and valid_payment is True and post_limit_reached is False%}
 
 <h1>Add a post</h1>
@@ -21,6 +99,7 @@
     <h1>Only users with valid One Year Access can post</h1>
     {% elif post_limit_reached is True %}
     <h1>At least 24 hours should elapse between posts </h1>
+    <h3>You still have about {{time_left}} hours. You can make it!</h3>
     {%else%}
     <h1>You either haven't paid or posted fewer than 24 hours ago.</h1>
 

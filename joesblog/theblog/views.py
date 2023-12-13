@@ -183,6 +183,10 @@ class AddPostView(CreateView):
 
         post_limit_reached = (currentTime - user_profile.last_posted) < 86400
 
+        time_left = int((86400 - (currentTime - user_profile.last_posted)) / 3600)
+
+        print(time_left)
+
         # if validPayment and post_limit_reached is False:
         #     user_profile.last_posted = currentTime
         #     user_profile.save()
@@ -191,6 +195,7 @@ class AddPostView(CreateView):
 
         context["post_limit_reached"] = post_limit_reached
         context["valid_payment"] = validPayment
+        context["time_left"] = time_left
 
         return context
 
