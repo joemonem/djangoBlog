@@ -78,6 +78,33 @@
         border-bottom: 1px solid #ddd;
         padding-bottom: 15px;
     }
+
+    /* Pagination styling */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .pagination li {
+        list-style: none;
+        margin: 0 5px;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .pagination li:hover {
+        background-color: #eee;
+    }
+
+    .pagination li.active {
+        background-color: #ccc;
+        font-weight: bold;
+    }
 </style>
 
 
@@ -142,6 +169,23 @@
     {%endif%}
 
 </ul>
+<div class="pagination">
+    <span class="step-links">
+        {% if user_posts.has_previous %}
+        <a href="?user_posts_page=1">&laquo; first</a>
+        <a href="?user_posts_page={{ user_posts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            {{ user_posts.number }} of {{ user_posts.paginator.num_pages }}
+        </span>
+
+        {% if user_posts.has_next %}
+        <a href="?user_posts_page={{ user_posts.next_page_number }}">next</a>
+        <a href="?user_posts_page={{ user_posts.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 
 
 {% if user.is_authenticated and user == user_profile.user %}
@@ -171,7 +215,25 @@
 
 </ul>
 
+
 {% endif %}
+<div class="pagination">
+    <span class="step-links">
+        {% if following_posts.has_previous %}
+        <a href="?following_posts_page=1">&laquo; first</a>
+        <a href="?following_posts_page={{ following_posts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ following_posts.number }} of {{ following_posts.paginator.num_pages }}.
+        </span>
+
+        {% if following_posts.has_next %}
+        <a href="?following_posts_page={{ following_posts.next_page_number }}">next</a>
+        <a href="?following_posts_page={{ following_posts.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 
 {%endif%}
 

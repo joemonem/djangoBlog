@@ -34,6 +34,9 @@ from datetime import datetime
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
 
+# Pagination
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # Create your views here.
 
@@ -44,6 +47,8 @@ class HomeView(ListView):
     model = Post
     template_name = "home.html"
     context_object_name = "posts"
+    paginate_by = 5  # Adjust the number of posts per page as needed
+
     # ordering = ["-published_date"]
 
     def get_context_data(self, **kwargs):
@@ -60,11 +65,34 @@ class HomeView(ListView):
         following_posts = []
 
         for profile in following_users:
-            print(profile)
             following_user_posts = Post.objects.filter(author=profile)
             following_posts.extend(following_user_posts)
 
         following_posts.sort(key=lambda post: post.id)
+
+        # Paginate user_posts
+        user_posts_paginator = Paginator(user_posts, self.paginate_by)
+        user_posts_page = self.request.GET.get("user_posts_page")
+
+        try:
+            user_posts = user_posts_paginator.page(user_posts_page)
+        except PageNotAnInteger:
+            user_posts = user_posts_paginator.page(1)
+        except EmptyPage:
+            user_posts = user_posts_paginator.page(user_posts_paginator.num_pages)
+
+        # Paginate following_posts
+        following_posts_paginator = Paginator(following_posts, self.paginate_by)
+        following_posts_page = self.request.GET.get("following_posts_page")
+
+        try:
+            following_posts = following_posts_paginator.page(following_posts_page)
+        except PageNotAnInteger:
+            following_posts = following_posts_paginator.page(1)
+        except EmptyPage:
+            following_posts = following_posts_paginator.page(
+                following_posts_paginator.num_pages
+            )
 
         context["user_object"] = user_object
         context["user_profile"] = user_profile
