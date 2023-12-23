@@ -70,29 +70,29 @@ class HomeView(ListView):
 
         following_posts.sort(key=lambda post: post.id)
 
-        # Paginate user_posts
-        user_posts_paginator = Paginator(user_posts, self.paginate_by)
-        user_posts_page = self.request.GET.get("user_posts_page")
+        # # Paginate user_posts
+        # user_posts_paginator = Paginator(user_posts, self.paginate_by)
+        # user_posts_page = self.request.GET.get("user_posts_page")
 
-        try:
-            user_posts = user_posts_paginator.page(user_posts_page)
-        except PageNotAnInteger:
-            user_posts = user_posts_paginator.page(1)
-        except EmptyPage:
-            user_posts = user_posts_paginator.page(user_posts_paginator.num_pages)
+        # try:
+        #     user_posts = user_posts_paginator.page(user_posts_page)
+        # except PageNotAnInteger:
+        #     user_posts = user_posts_paginator.page(1)
+        # except EmptyPage:
+        #     user_posts = user_posts_paginator.page(user_posts_paginator.num_pages)
 
-        # Paginate following_posts
-        following_posts_paginator = Paginator(following_posts, self.paginate_by)
-        following_posts_page = self.request.GET.get("following_posts_page")
+        # # Paginate following_posts
+        # following_posts_paginator = Paginator(following_posts, self.paginate_by)
+        # following_posts_page = self.request.GET.get("following_posts_page")
 
-        try:
-            following_posts = following_posts_paginator.page(following_posts_page)
-        except PageNotAnInteger:
-            following_posts = following_posts_paginator.page(1)
-        except EmptyPage:
-            following_posts = following_posts_paginator.page(
-                following_posts_paginator.num_pages
-            )
+        # try:
+        #     following_posts = following_posts_paginator.page(following_posts_page)
+        # except PageNotAnInteger:
+        #     following_posts = following_posts_paginator.page(1)
+        # except EmptyPage:
+        #     following_posts = following_posts_paginator.page(
+        #         following_posts_paginator.num_pages
+        #     )
 
         context["user_object"] = user_object
         context["user_profile"] = user_profile

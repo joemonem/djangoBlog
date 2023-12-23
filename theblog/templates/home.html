@@ -169,11 +169,10 @@
     {%endif%}
 
 </ul>
-<div class="pagination">
+<!-- <div class="pagination">
     <span class="step-links">
         {% if user_posts.has_previous %}
-        <a href="?user_posts_page=1">&laquo; first</a>
-        <a href="?user_posts_page={{ user_posts.previous_page_number }}">previous</a>
+        <a href="?user_posts_page={{ user_posts.previous_page_number }}">back</a>
         {% endif %}
 
         <span class="current">
@@ -182,10 +181,9 @@
 
         {% if user_posts.has_next %}
         <a href="?user_posts_page={{ user_posts.next_page_number }}">next</a>
-        <a href="?user_posts_page={{ user_posts.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
-</div>
+</div> -->
 
 
 {% if user.is_authenticated and user == user_profile.user %}
@@ -217,23 +215,21 @@
 
 
 {% endif %}
-<div class="pagination">
+<!-- <div class="pagination">
     <span class="step-links">
         {% if following_posts.has_previous %}
-        <a href="?following_posts_page=1">&laquo; first</a>
-        <a href="?following_posts_page={{ following_posts.previous_page_number }}">previous</a>
+        <a href="?following_posts_page={{ following_posts.previous_page_number }}">back</a>
         {% endif %}
 
         <span class="current">
-            Page {{ following_posts.number }} of {{ following_posts.paginator.num_pages }}.
+            {{ following_posts.number }} of {{ following_posts.paginator.num_pages }}
         </span>
 
         {% if following_posts.has_next %}
         <a href="?following_posts_page={{ following_posts.next_page_number }}">next</a>
-        <a href="?following_posts_page={{ following_posts.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
-</div>
+</div> -->
 
 {%endif%}
 
