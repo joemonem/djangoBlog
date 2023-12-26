@@ -9,13 +9,19 @@
 <!-- Use safe so that the HTML won't show in the actual post. It's an unsafe method. Using django-bleach is the better method-->
 <p>{{post.body | safe}}</p>
 <br>
-<a href="{%url 'home' post.author.username%}"> <button class="btn btn-dark">Back to {{post.author.first_name}}'s
-        page</button></a>
+
+
 
 {% if user.is_authenticated and user.username == post.author.username%}
 
+<a href="{%url 'home' post.author.username%}"> <button class="btn btn-dark">Back</button></a>
 <a href="{%url 'update_post' post.pk %}"> <button class="btn btn-dark">Edit</button></a>
 <a href="{%url 'delete_post' post.pk %}"> <button class="btn btn-dark">Delete</button></a>
+
+{%else%}
+
+<a href="{%url 'home' post.author.username%}"> <button class="btn btn-dark">Go to {{post.author.first_name}}'s
+        page</button></a>
 
 {%endif%}
 
